@@ -41,8 +41,8 @@ const [theme, setTheme] = useState(() => {
    <div
   className={`min-h-screen transition-all duration-500 ${
    theme === "dark"
-  ? "bg-gradient-to-br from-slate-900 via-slate-950 to-black"
-  : "bg-gradient-to-br from-stone-100 via-amber-50 to-orange-100"
+  ? "bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950"
+  : "bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100"
   }`}
 >
      <Navbar
@@ -50,12 +50,20 @@ const [theme, setTheme] = useState(() => {
   setTheme={setTheme}
 />
 
-      <div className="flex justify-center mt-10 px-4">
-        <div
-  className={`w-full max-w-3xl rounded-3xl backdrop-blur-xl border shadow-2xl p-8 transition-all duration-500 ${
+      <div className="flex justify-center mt-6 md:mt-10 px-3 md:px-6">
+  <div
+  className={`w-full max-w-md md:max-w-2xl lg:max-w-3xl
+  rounded-3xl
+  backdrop-blur-xl
+  border
+  shadow-2xl
+  p-5 md:p-8
+  transition-all
+  duration-500
+  ${
     theme === "dark"
-      ? "bg-white/10 border-white/20 text-white"
-      : "bg-white border-gray-300 text-black"
+      ? "bg-slate-900/70 border-white/10"
+      : "bg-white/70 border-white"
   }`}
 >
 

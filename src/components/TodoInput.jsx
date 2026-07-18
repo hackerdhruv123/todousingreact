@@ -21,15 +21,15 @@ function TodoInput({ todos, setTodos }) {
 
   return (
     <div className="mb-8">
-    <h2 className="text-center text-5xl font-bold text-slate-900 dark:text-white transition-colors duration-300">
+    <h2 className="text-center text-3xl md:text-5xl font-bold text-slate-900 dark:text-white transition-colors duration-300">
   Chalo list banai:
 </h2>
 
-      <p className="text-slate-300 text-center mt-2">
+     <p className="mt-3 text-center text-sm md:text-lg text-slate-500 dark:text-slate-300">
         Stay organized and complete your goals.
       </p>
 
-      <div className="flex gap-4 mt-8">
+     <div className="flex flex-col md:flex-row gap-4 mt-8">
         <input
           type="text"
           placeholder="Enter a new task..."
