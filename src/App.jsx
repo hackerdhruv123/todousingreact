@@ -6,85 +6,82 @@ import Stats from "./components/Stats";
 import SearchBar from "./components/SearchBar";
 
 function App() {
-  // Load todos from Local Storage when app starts
   const [todos, setTodos] = useState(() => {
     const savedTodos = localStorage.getItem("todos");
-
-    if (savedTodos) {
-      return JSON.parse(savedTodos);
-    }
-
-    return [];
+    return savedTodos ? JSON.parse(savedTodos) : [];
   });
-const [search, setSearch] = useState("");
-const [filter, setFilter] = useState("all");
-const [theme, setTheme] = useState(() => {
-  return localStorage.getItem("theme") || "dark";
-});
+
+  const [search, setSearch] = useState("");
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "dark"
+  );
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
-  useEffect(() => {
-  localStorage.setItem("theme", theme);
 
-  if (theme === "dark") {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-}, [theme]);
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   const filteredTodos = todos.filter((todo) =>
-  todo.text.toLowerCase().includes(search.toLowerCase())
-);
+    todo.text.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-   <div
-  className={`min-h-screen transition-all duration-500 ${
-   theme === "dark"
-  ? "bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950"
-  : "bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100"
-  }`}
->
-     <Navbar
-  theme={theme}
-  setTheme={setTheme}
-/>
+    <div
+      className={`min-h-screen transition-all duration-500 ${
+        theme === "dark"
+          ? "bg-gradient-to-r from-[#4E5F50] via-[#2E8B57] to-[#19BFB8]"
+          : "bg-gradient-to-br from-[#F8FAFC] via-[#ECFDF5] to-[#D1FAE5]"
+      }`}
+    >
+      <Navbar theme={theme} setTheme={setTheme} />
 
-      <div className="flex justify-center mt-6 md:mt-10 px-3 md:px-6">
-  <div
-  className={`w-full max-w-md md:max-w-2xl lg:max-w-3xl
-  rounded-3xl
-  backdrop-blur-xl
-  border
-  shadow-2xl
-  p-5 md:p-8
-  transition-all
-  duration-500
-  ${
-    theme === "dark"
-      ? "bg-slate-900/70 border-white/10"
-      : "bg-white/70 border-white"
-  }`}
->
-
+      <div className="flex justify-center mt-8 px-4">
+        <div
+          className={`w-full
+          max-w-sm
+          sm:max-w-md
+          md:max-w-lg
+          lg:max-w-xl
+          rounded-3xl
+          border
+          backdrop-blur-xl
+          transition-all
+          duration-500
+          p-4
+          sm:p-5
+          md:p-6
+          ${
+            theme === "dark"
+              ? "bg-white/10 border-white/20 shadow-2xl shadow-black/30"
+              : "bg-[#F8FAFC]/90 border-[#D1D5DB] shadow-2xl shadow-gray-300/40"
+          }`}
+        >
           <TodoInput
   todos={todos}
   setTodos={setTodos}
+  theme={theme}
 />
 
-<SearchBar
-  search={search}
-  setSearch={setSearch}
-/>
-
-<TodoList
-  todos={filteredTodos}
-  setTodos={setTodos}
-/>
-          <Stats
-            todos={todos}
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
           />
 
+          <TodoList
+            todos={filteredTodos}
+            setTodos={setTodos}
+          />
+
+          <Stats todos={todos} />
         </div>
       </div>
     </div>

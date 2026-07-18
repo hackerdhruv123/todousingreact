@@ -18,16 +18,17 @@ function TodoItem({
     items-start
     md:items-center
     gap-4
-    bg-slate-800
-    dark:bg-slate-800
     rounded-xl
     p-4
     mb-4
     transition-all
     duration-300
-    hover:bg-slate-700
     hover:-translate-y-1
     hover:shadow-xl
+    bg-zinc-300
+    dark:bg-slate-800
+    hover:bg-zinc-400
+    dark:hover:bg-slate-700
   "
 >
 
