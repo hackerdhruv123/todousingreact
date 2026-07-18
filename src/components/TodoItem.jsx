@@ -9,26 +9,29 @@ function TodoItem({
   setEditText,
 }) {
   return (
-   <div
+  <div
   className="
     flex
+    flex-col
+    md:flex-row
     justify-between
-    items-center
+    items-start
+    md:items-center
+    gap-4
     bg-slate-800
-    text-white
-    p-4
+    dark:bg-slate-800
     rounded-xl
-    mb-3
+    p-4
+    mb-4
     transition-all
     duration-300
-    hover:scale-[1.02]
-    hover:shadow-2xl
     hover:bg-slate-700
-    cursor-pointer
+    hover:-translate-y-1
+    hover:shadow-xl
   "
 >
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-1 w-full">
 
         <input
           type="checkbox"
@@ -58,19 +61,17 @@ function TodoItem({
 
       </div>
 
-      <div className="flex gap-2">
-
+   <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
         {editingId === todo.id ? (
           <button
             onClick={() => handleSave(todo.id)}
-            className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg"
-          >
+           className="w-full sm:w-auto bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg transition">
             Save
           </button>
         ) : (
           <button
             onClick={() => handleEdit(todo)}
-            className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg"
+            className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition"
           >
             Edit
           </button>
@@ -78,7 +79,7 @@ function TodoItem({
 
         <button
           onClick={() => handleDelete(todo.id)}
-          className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg"
+        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition"
         >
           Delete
         </button>
