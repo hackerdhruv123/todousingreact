@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-paper font-sans text-base text-ink-soft;
+  }
+
+  ::selection {
+    background-color: #f3e0d4;
+    color: #1c1917;
+  }
+
+  .dark ::selection {
+    background-color: #5c3a24;
+    color: #f6f1ea;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex h-11 items-center justify-center gap-2
+      rounded-full bg-clay px-5
+      text-sm font-semibold text-white
+      shadow-sm transition-all duration-150
+      hover:bg-clay-deep
+      active:scale-[0.98]
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex h-10 w-10 items-center justify-center
+      rounded-full text-ink-mute
+      transition-colors duration-150
+      hover:bg-paper-deep hover:text-ink
+      active:scale-[0.97];
+  }
+
+  .dark .btn-ghost {
+    @apply text-ink-faint hover:bg-white/10 hover:text-paper-soft;
+  }
+
+  .field {
+    @apply h-12 w-full rounded-item border border-line bg-card
+      px-4 text-[15px] text-ink
+      placeholder:text-ink-faint
+      outline-none transition-all duration-150
+      focus:border-clay/40 focus:ring-2 focus:ring-clay/15;
+  }
+
+  .dark .field {
+    @apply border-line-dark bg-card-dark-raised text-paper-soft
+      placeholder:text-ink-faint
+      focus:border-clay/50 focus:ring-clay/20;
+  }
+}

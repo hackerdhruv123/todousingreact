@@ -5,6 +5,13 @@ import TodoList from "./components/TodoList";
 import Stats from "./components/Stats";
 import SearchBar from "./components/SearchBar";
 
+function greeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
 function App() {
   const [todos, setTodos] = useState(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -12,8 +19,9 @@ function App() {
   });
 
   const [search, setSearch] = useState("");
+
   const [theme, setTheme] = useState(
-    () => localStorage.getItem("theme") || "dark"
+    () => localStorage.getItem("theme") || "light"
   );
 
   useEffect(() => {
@@ -22,68 +30,108 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
   const filteredTodos = todos.filter((todo) =>
     todo.text.toLowerCase().includes(search.toLowerCase())
   );
 
+  const pending = todos.filter((t) => !t.completed).length;
+  const isDark = theme === "dark";
+
   return (
     <div
-      className={`min-h-screen transition-all duration-500 ${
-        theme === "dark"
-          ? "bg-gradient-to-r from-[#4E5F50] via-[#2E8B57] to-[#19BFB8]"
-          : "bg-gradient-to-br from-[#F8FAFC] via-[#ECFDF5] to-[#D1FAE5]"
+      className={`min-h-screen transition-colors duration-300 ${
+        isDark ? "bg-night" : "bg-paper"
       }`}
     >
       <Navbar theme={theme} setTheme={setTheme} />
 
-      <div className="flex justify-center mt-8 px-4">
+      <main className="mx-auto max-w-app px-5 pb-16 pt-10 sm:px-6 sm:pt-14">
+        {/* Quiet personal header — no marketing hero */}
+        <header className="mb-8">
+          <p
+            className={`mb-1.5 text-sm font-medium ${
+              isDark ? "text-ink-faint" : "text-ink-mute"
+            }`}
+          >
+            {greeting()}
+          </p>
+          <h1
+            className={`font-display text-[2rem] font-medium leading-tight tracking-tight sm:text-[2.35rem] ${
+              isDark ? "text-paper-soft" : "text-ink"
+            }`}
+          >
+            {pending === 0 && todos.length > 0
+              ? "You're all caught up"
+              : pending === 0
+                ? "What's on your mind?"
+                : pending === 1
+                  ? "1 thing left today"
+                  : `${pending} things left today`}
+          </h1>
+          {todos.length > 0 && (
+            <p
+              className={`mt-2 text-[15px] ${
+                isDark ? "text-ink-faint" : "text-ink-mute"
+              }`}
+            >
+              {todos.filter((t) => t.completed).length} of {todos.length} done
+            </p>
+          )}
+        </header>
+
+        {/* The actual tool */}
         <div
-          className={`w-full
-          max-w-sm
-          sm:max-w-md
-          md:max-w-lg
-          lg:max-w-xl
-          rounded-3xl
-          border
-          backdrop-blur-xl
-          transition-all
-          duration-500
-          p-4
-          sm:p-5
-          md:p-6
-          ${
-            theme === "dark"
-              ? "bg-white/10 border-white/20 shadow-2xl shadow-black/30"
-              : "bg-[#F8FAFC]/90 border-[#D1D5DB] shadow-2xl shadow-gray-300/40"
+          className={`rounded-card border p-5 shadow-card sm:p-6 ${
+            isDark
+              ? "border-line-dark bg-card-dark"
+              : "border-line bg-card"
           }`}
         >
-          <TodoInput
-  todos={todos}
-  setTodos={setTodos}
-  theme={theme}
-/>
+          <TodoInput todos={todos} setTodos={setTodos} theme={theme} />
 
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-          />
+          {todos.length > 0 && (
+            <>
+              <div
+                className={`my-5 h-px ${
+                  isDark ? "bg-line-dark" : "bg-line"
+                }`}
+              />
+              <SearchBar search={search} setSearch={setSearch} theme={theme} />
+            </>
+          )}
 
-          <TodoList
-            todos={filteredTodos}
-            setTodos={setTodos}
-          />
+          <div className="mt-5">
+            <TodoList
+              todos={filteredTodos}
+              setTodos={setTodos}
+              allTodos={todos}
+              theme={theme}
+            />
+          </div>
 
-          <Stats todos={todos} />
+          {todos.length > 0 && (
+            <>
+              <div
+                className={`my-5 h-px ${
+                  isDark ? "bg-line-dark" : "bg-line"
+                }`}
+              />
+              <Stats todos={todos} theme={theme} />
+            </>
+          )}
         </div>
-      </div>
+
+        <p
+          className={`mt-8 text-center text-sm ${
+            isDark ? "text-ink-faint/70" : "text-ink-faint"
+          }`}
+        >
+          Saved on this device only
+        </p>
+      </main>
     </div>
   );
 }

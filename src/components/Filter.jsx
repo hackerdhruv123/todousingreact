@@ -1,5 +1,5 @@
 function Filter() {
-  return <div>Filter</div>;
+  return null;
 }
 
 export default Filter;

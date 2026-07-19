@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
 
 function TodoInput({ todos, setTodos }) {
   const [input, setInput] = useState("");
 
   function handleAddTodo() {
-    if (input.trim() === "") return;
+    if (!input.trim()) return;
 
     const newTodo = {
       id: Date.now(),
-      text: input,
+      text: input.trim(),
       completed: false,
     };
 
@@ -16,64 +17,40 @@ function TodoInput({ todos, setTodos }) {
     setInput("");
   }
 
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      handleAddTodo();
+    }
+  }
+
   return (
-    <div className="mb-8">
-      <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-  <span className="text-slate-900 dark:text-white">To-</span>
-  <span className="text-cyan-500">Do</span>
-  <span className="text-slate-900 dark:text-white"> List</span>
-</h2>
-      <div className="flex flex-col sm:flex-row gap-3 mt-6">
+    <div id="add-todo">
+      <label
+        htmlFor="new-todo"
+        className="mb-2.5 block text-sm font-medium text-ink-mute dark:text-ink-faint"
+      >
+        Add a task
+      </label>
+
+      <div className="flex gap-2.5">
         <input
+          id="new-todo"
           type="text"
-          placeholder="Enter a task..."
+          placeholder="e.g. Call mom, buy milk…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="
-            flex-1
-            w-full
-            px-4
-            py-3
-            rounded-xl
-            bg-zinc-200
-            dark:bg-slate-800
-            text-slate-900
-            dark:text-white
-            placeholder:text-lime-600
-            dark:placeholder:text-lime-400
-            border
-            border-gray-300
-            dark:border-slate-700
-            outline-none
-            focus:ring-2
-            focus:ring-teal-500
-            transition-all
-            duration-300
-          "
+          onKeyDown={handleKeyDown}
+          className="field flex-1"
+          aria-label="New todo"
         />
 
         <button
+          type="button"
           onClick={handleAddTodo}
-          className="
-            w-full
-            sm:w-auto
-            px-6
-            py-3
-            rounded-xl
-            bg-gradient-to-r
-            from-violet-600
-            to-teal-600
-            text-white
-            font-semibold
-            transition-all
-            duration-300
-            hover:scale-105
-            hover:shadow-xl
-            hover:shadow-emerald-500/40
-            active:scale-95
-          "
+          className="btn-primary shrink-0 px-4 sm:px-5"
         >
-          Add
+          <Plus size={18} strokeWidth={2.25} />
+          <span className="hidden sm:inline">Add</span>
         </button>
       </div>
     </div>
